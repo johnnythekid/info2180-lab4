@@ -1,308 +1,324 @@
-var game;
+var game;
+var status;
+var board;
+var controls;
+var btn;
+var divs;
+var divs1;
+var factions;
+var winx;
+var wino;
+var turns=0;
+window.onload =function(){
 
 
-var status;
 
 
-var board;
 
+game = document.querySelectorAll("#game");
+status = document.getElementById("status");
+board = document.querySelectorAll("#board");
+controls = document.querySelectorAll(".controls");
+divs = document.getElementsByTagName("div");
+divs1 = document.getElementsByClassName("square");
+factions = new Array("X","O");
 
-var controls;
 
 
-var btn;
 
 
-var divs;
+for(let i=0;i<divs.length;i++){
 
 
-var divs1;
 
 
-var theSquares;
 
+if((divs[i].id=="") && (divs[i].className=="")){
 
-var factions;
 
 
-var win=true;
 
 
-var turns=0;
+divs[i].classList.add("square");
 
 
-var arr_X;
 
+divs[i].onmouseenter=function(){
 
-var arr_O;
+styleOn(divs[i]);
 
+};
 
-var arr_win = new Array([0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]);
+divs[i].onmouseleave=function(){
 
+styleOff(divs[i]);
 
-window.onload = function(){
+};
 
+}
 
-    game = document.querySelectorAll("#game");
 
+if(divs[i].className=="square"){
 
-    status = document.querySelectorAll("#status");
 
 
-    board = document.querySelectorAll("#board");
+divs[i].onclick=function(){
 
 
-    controls = document.querySelectorAll(".controls");
 
+emptyOut(divs[i]);
 
-    divs = document.getElementsByTagName("div");
 
 
-    divs1 = document.getElementsByClassName("square");
+};
 
 
-    factions = new Array("X","O");
 
+}
 
-    for(let i=0; i<divs.length;i++){
 
 
-        if((divs[i].id=="") && (divs[i].className=="")){
+}
 
 
-            divs[i].classList.add("square");
 
 
-        }
+btn=document.querySelector("button");
 
 
-        if(divs[i].id=="status"){
 
-            for(var j =0; j<divs1.length;j++){
 
-                if(divs1[j].innerHTML=="X"){
 
-                    arr_X[j]=j;
+btn.onclick =function(){
 
-                    arr_X.sort();
 
-                    win=arr_win.includes(arr_X);
+Vanish();
 
-                    if(win){
 
-                        divs[j].textContent="Congratulations! X is the Winner!";
 
-                        break;
+Vanish1();
 
-                    }
+};
 
-                }
 
-                else if(divs1[j].innerHTML=="O"){
 
-                    arr_O[j]=j;
 
-                    arr_O.sort();
 
-                    win = arr_win.includes(arr_O);
 
-                    if(win){
 
-                        divs[j].textContent="Congratulations! O is the Winner!";
 
-                        break;
+function 
+Vanish(){
 
-                    }
 
-                }
 
-        }
+for(var i=0;i<divs1.length;i++){
 
-        
 
-        }
 
+divs1[i].textContent =
+" ";
+divs1[i].onclick=function(){
+    emptyOut(divs1[i])
+};
+if(divs1[i].classList.contains("X")){
+    divs1[i].classList.remove("X");
+}
+else{
+    divs1[i].classList.remove("O");
+}
 
-        if(divs[i].className=="square"){
+}
 
 
-            //divs[i].setAttribute("onclick");
 
+turns=0;
 
-            divs[i].onclick=function(){
 
-                emptyOut(divs[i]);
 
+}
 
-            };
 
-        
 
 
-        }
 
+function 
+Vanish1(){
 
 
-    }
 
+for(var
+j=0;
+j<this.divs1.length;j++){
 
 
-    btn=document.querySelector("button");
 
+if(divs[j].id=="status"){
 
-    btn.onclick = function(){
 
 
-        Vanish();
+divs[j].textContent="Move your mouse over a square and click to play an X or an O.";
 
 
-        Vanish1();
 
+}
 
-    };
+}
 
+}
 
-    function Vanish(){
 
 
-        //divs1 = document.getElementsByClassName("square");
 
 
-        for(var i=0; i<divs1.length;i++){
 
+function 
+change(element){
 
-                divs1[i].textContent = " ";
 
+if(turns==0){
 
+element.innerHTML="X";
+element.classList.add("X");
 
-        }
 
-        turns=0;
+turns=1;
 
 
-    }
 
 
-    function Vanish1(){
+}
 
 
-        for(var j=0; j<this.divs1.length;j++){
 
+else{
 
-            if(divs[j].id=="status"){
+element.innerHTML="O";
+element.classList.add("O");
 
 
-                divs[j].textContent="Move your mouse over a square and click to play an X or an O.";
+turns=0;
 
 
-            }
 
+}
 
-        }
 
 
-    }
+}
 
 
-    for( var l=0;l<this.divs.length;l++){
 
+function 
+emptyOut(element){
 
-        divs[l].onmouseenter=function(){
 
 
-            StyleOn()
+var 
+check=element.innerHTML;
 
 
-        };
 
+if(check=="X"||check=="O"){
 
-        divs[l].onmouseleave=function(){
 
 
-            StyleOff()
+}
 
 
-        };
 
+else{
 
-    }
 
 
-    function StyleOn(){
+change(element);
 
+winner();
 
-        for(var i=0; i<divs1.length;i++){
+}
 
 
-         
 
+}
 
-         
+function winner(){
+    status = 
+    document.getElementById("status");
+for(var i = 0;i<divs.length;i++){
 
+if(divs[i].id=="status"){
 
-         
+if((divs1[0].innerHTML=="X" &&
+divs1[1].innerHTML=="X" &&
+divs1[2].innerHTML=="X") || (divs1[3].innerHTML=="X"
+ && divs1[4].innerHTML=="X" &&
+divs1[5].innerHTML=="X") || (divs1[6].innerHTML=="X"
+ && divs1[7].innerHTML=="X" &&
+divs1[8].innerHTML=="X")||(divs1[0].innerHTML=="X"
+ && divs1[3].innerHTML=="X" &&
+divs1[6].innerHTML=="X")||(divs1[1].innerHTML=="X"
+ && divs1[4].innerHTML=="X" &&
+divs1[7].innerHTML=="X")||(divs1[2].innerHTML=="X"
+ && divs1[5].innerHTML=="X" &&
+divs1[8].innerHTML=="X")||(divs1[0].innerHTML=="X"
+ && divs1[4].innerHTML=="X" &&
+divs1[8].innerHTML=="X")||(divs1[0].innerHTML=="2"
+ && divs1[4].innerHTML=="X" &&
+divs1[6].innerHTML=="X")){
 
+divs[i].textContent="Congratulations! X is the winner.";
+winx=true;
+}
 
+else 
+if((divs1[0].innerHTML=="O" &&
+divs1[1].innerHTML=="O" &&
+divs1[2].innerHTML=="O") || (divs1[3].innerHTML=="O"
+ && divs1[4].innerHTML=="O" &&
+divs1[5].innerHTML=="O") || (divs1[6].innerHTML=="O"
+ && divs1[7].innerHTML=="O" &&
+divs1[8].innerHTML=="O")||(divs1[0].innerHTML=="O"
+ && divs1[3].innerHTML=="O" &&
+divs1[6].innerHTML=="O")||(divs1[1].innerHTML=="O"
+ && divs1[4].innerHTML=="O" &&
+divs1[7].innerHTML=="O")||(divs1[2].innerHTML=="O"
+ && divs1[5].innerHTML=="O" &&
+divs1[8].innerHTML=="O")||(divs1[0].innerHTML=="O"
+ && divs1[4].innerHTML=="O" &&
+divs1[8].innerHTML=="O")||(divs1[2].innerHTML=="O"
+ && divs1[4].innerHTML=="O" &&
+divs1[6].innerHTML=="O")){
 
-        }
+divs[i].textContent="Congratulations! O is the winner.";
+wino=true;
+}
 
+}
 
-    }
+}
 
+}
 
-    function StyleOff(){
+function 
+styleOn(element){
 
 
-        for(var i=0; i<divs1.length;i++){
 
+element.classList.add("hover");
 
-            divs1[i].classList.remove("hover");
 
+}
 
-      }
+function 
+styleOff(element){
 
 
-        
 
+element.classList.remove("hover");
 
-    }
 
-    function change(element){
 
-        if(turns==0){
-
-            element.innerHTML="X";
-
-            turns=1;
-
-        }
-
-        else{
-
-            element.innerHTML="O";
-
-            turns=0;
-
-        }
-
-    }
-
-    function emptyOut(element){
-
-        var check=element.innerHTML;
-
-        if(check=="X"|| check=="O"){
-
-
-        }
-
-        else{
-
-            change(element);
-
-        }
-
-    }
+}
 
 }
 

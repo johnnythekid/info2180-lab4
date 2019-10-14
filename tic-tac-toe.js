@@ -6,8 +6,7 @@ var btn;
 var divs;
 var divs1;
 var factions;
-var winx;
-var wino;
+var gameOver;
 var turns=0;
 window.onload =function(){
 
@@ -42,7 +41,6 @@ if((divs[i].id=="") && (divs[i].className=="")){
 divs[i].classList.add("square");
 
 
-
 divs[i].onmouseenter=function(){
 
 styleOn(divs[i]);
@@ -63,15 +61,10 @@ if(divs[i].className=="square"){
 
 
 divs[i].onclick=function(){
-
-
-
 emptyOut(divs[i]);
 
-
-
+gameCheck();
 };
-
 
 
 }
@@ -101,7 +94,13 @@ Vanish1();
 };
 
 
-
+function gameCheck(){
+    if(gameOver){
+        for( var k=0; k<divs1.length;k++){
+            divs1[k].onclick=false;
+        }
+    }
+}
 
 
 
@@ -110,7 +109,7 @@ Vanish1();
 function 
 Vanish(){
 
-
+gameOver=false;
 
 for(var i=0;i<divs1.length;i++){
 
@@ -147,9 +146,7 @@ Vanish1(){
 
 
 
-for(var
-j=0;
-j<this.divs1.length;j++){
+for(varj=0;j<this.divs1.length;j++){
 
 
 
@@ -212,8 +209,6 @@ turns=0;
 function 
 emptyOut(element){
 
-
-
 var 
 check=element.innerHTML;
 
@@ -265,9 +260,8 @@ divs1[8].innerHTML=="X")||(divs1[0].innerHTML=="X"
 divs1[8].innerHTML=="X")||(divs1[0].innerHTML=="2"
  && divs1[4].innerHTML=="X" &&
 divs1[6].innerHTML=="X")){
-
 divs[i].textContent="Congratulations! X is the winner.";
-winx=true;
+gameOver=true;
 }
 
 else 
@@ -288,9 +282,9 @@ divs1[8].innerHTML=="O")||(divs1[0].innerHTML=="O"
 divs1[8].innerHTML=="O")||(divs1[2].innerHTML=="O"
  && divs1[4].innerHTML=="O" &&
 divs1[6].innerHTML=="O")){
-
 divs[i].textContent="Congratulations! O is the winner.";
-wino=true;
+status.classList.add("you-win");
+gameOver=true;
 }
 
 }
